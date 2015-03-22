@@ -58,6 +58,10 @@ module Headstartup
     end
 
     private
+      def self.template_exists?(engine, views, template)
+        views && File.exist?(File.join(views, "#{template}.#{engine}"))
+      end
+
       def self.render_options(template, *engines)
         [local_view_path, theme_view_path].each do |path|
           engines.each do |engine|
