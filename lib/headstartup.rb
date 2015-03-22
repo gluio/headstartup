@@ -28,9 +28,65 @@ module Headstartup
     end
   end
 
+  module Overrides
+    module Renderers
+      def haml(template, options = {}, locals = {})
+        defaults, engine = Overrides.render_options(template, :haml)
+        super(template, defaults.merge(options), locals)
+      end
+
+      def erb(template, options = {}, locals = {})
+        defaults, engine = Overrides.render_options(template, :erb)
+        super(template, defaults.merge(options), locals)
+      end
+
+      def scss(template, options = {}, locals = {})
+        defaults, engine = Overrides.render_options(template, :scss)
+        super(template, defaults.merge(options), locals)
+      end
+
+      def sass(template, options = {}, locals = {})
+        defaults, engine = Overrides.render_options(template, :sass)
+        super(template, defaults.merge(options), locals)
+      end
+
+      def stylesheet(template, options = {}, locals = {})
+        defaults, engine = Overrides.render_options(template, :sass, :scss)
+        renderer = Sinatra::Templates.instance_method(engine)
+        renderer.bind(self).call(template, defaults.merge(options), locals)
+      end
+    end
+
+    private
+      def self.render_options(template, *engines)
+        [local_view_path, theme_view_path].each do |path|
+          engines.each do |engine|
+            if template_exists?(engine, path, template)
+              return { views: path }, engine
+            end
+          end
+        end
+        [{}, :sass]
+      end
+
+      def self.local_view_path
+        Headstartup::App.views
+      end
+
+      def self.theme_view_path
+        if Nesta::Config.theme.nil?
+          nil
+        else
+          Nesta::Path.themes(Nesta::Config.theme, "views")
+        end
+      end
+  end
+
   class App < Nesta::App
     set :root, File.expand_path(File.dirname(__FILE__))
     set :views, File.expand_path("views", File.dirname(__FILE__))
+
+    helpers Headstartup::Overrides::Renderers
 
     get '/sitemap.xml' do
       content_type :xml, charset: 'utf-8'
