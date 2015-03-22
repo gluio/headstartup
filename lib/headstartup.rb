@@ -4,6 +4,19 @@ require "nesta/app"
 
 module Headstartup
   class Config < Nesta::Config
+    @settings = %w[
+      cache
+      content
+      disqus_short_name
+      google_analytics_code
+      read_more
+      subtitle
+      theme
+      title
+    ]
+    @author_settings = %w[name uri email]
+    @yaml = nil
+
     def self.landing_page_path(basename = nil)
       get_path(File.join(content_path, "landing-pages"), basename)
     end
