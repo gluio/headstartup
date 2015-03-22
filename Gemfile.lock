@@ -1,3 +1,13 @@
+PATH
+  remote: .
+  specs:
+    headstartup (0.0.1)
+      bitters
+      bourbon
+      neat
+      nesta
+      refills
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -36,12 +46,14 @@ GEM
     rack-protection (1.5.3)
       rack
     raindrops (0.13.0)
+    rake (10.1.0)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     rb-kqueue (0.2.3)
       ffi (>= 0.5.0)
     rdiscount (2.1.7.1)
+    refills (0.0.2)
     sass (3.4.9)
     sinatra (1.4.5)
       rack (~> 1.4)
@@ -58,8 +70,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bitters
-  bourbon
+  bundler (~> 1.7)
+  headstartup!
   mr-sparkle
-  neat
-  nesta
+  rake (~> 10.0)
