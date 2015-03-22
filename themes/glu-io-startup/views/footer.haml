@@ -1,0 +1,38 @@
+%footer#footer.footer
+  .footer-logo
+    %img{:alt => "Logo image", :src => "https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png"}/
+  .footer-links
+    %ul
+      %li
+        %h3 Content
+      %li
+        %a{:href => "/about"} About
+      %li
+        %a{:href => "/contact"} Contact
+      %li
+        %a{:href => "/products"} Products
+      %section.articles= article_summaries(latest_articles)
+    %ul
+      %li
+        %h3 Follow Us
+      - if facebook_page
+        %li
+          %a{:href => facebook_page} Facebook
+      - if twitter_handle
+        %li
+          %a{:href => "https://twitter.com/#{twitter_handle}"} Twitter
+    %ul
+      %li
+        %h3 Legal
+      %li
+        %a{:href => "/terms"} Terms and Conditions
+      %li
+        %a{:href => "/privacy"} Privacy Policy
+  %hr/
+  %p Disclaimer area, some things are registered trademarks by various entities.
+  %p
+    &copy; Copyright
+    = Time.now.year
+    YourCompany Inc. All rights reserved.
+
+
