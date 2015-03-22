@@ -1,5 +1,6 @@
 require "headstartup/version"
 
 module Headstartup
-  # Your code goes here...
+  class App < Nesta::App
+  end
 end
