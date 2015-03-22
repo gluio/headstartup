@@ -1,5 +1,5 @@
 require "headstartup/version"
-require "nesta"
+require "nesta/app"
 
 module Headstartup
   class App < Nesta::App
