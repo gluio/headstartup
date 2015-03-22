@@ -11,6 +11,7 @@ module Headstartup
 
   class App < Nesta::App
     set :root, File.expand_path(File.dirname(__FILE__))
+    set :views, File.expand_path("views", File.dirname(__FILE__))
   end
 end
 
