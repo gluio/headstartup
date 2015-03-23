@@ -1,7 +1,7 @@
 require "headstartup/version"
 require "nesta/config"
-require "nesta/app"
 require "nesta/overrides"
+require "nesta/app"
 
 module Nesta
   class Nesta::Config
@@ -40,6 +40,8 @@ module Headstartup
   class App < Nesta::App
     app_file = Nesta::Path.themes('headstartup', 'app.rb')
     require app_file if File.exist?(app_file)
+    include Headstartup::Routes
+    helpers Headstartup::Helpers
   end
 end
 
