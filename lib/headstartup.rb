@@ -87,6 +87,15 @@ module Headstartup
     set :views, File.expand_path("views", File.dirname(__FILE__))
 
     helpers Headstartup::Overrides::Renderers
+    helpers do
+      def twitter_handle
+        Nesta::Config.fetch("twitter", nil)
+      end
+
+      def facebook_page
+        Nesta::Config.fetch("facebook", nil)
+      end
+    end
 
     get '/sitemap.xml' do
       content_type :xml, charset: 'utf-8'
