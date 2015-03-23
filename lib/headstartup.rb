@@ -1,6 +1,7 @@
 require "headstartup/version"
 require "nesta/config"
 require "nesta/app"
+require "nesta/overrides"
 
 module Nesta
   class Nesta::Config
