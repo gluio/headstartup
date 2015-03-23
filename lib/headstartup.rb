@@ -64,11 +64,8 @@ module Headstartup
 
       def self.render_options(template, *engines)
         [local_view_path, theme_view_path].each do |path|
-          STDOUT.puts "Path is: #{path}"
-          STDOUT.puts "Looking for template: #{template}"
           engines.each do |engine|
             if template_exists?(engine, path, template)
-              STDOUT.puts "Path exists: #{path}"
               return { views: path }, engine
             end
           end
@@ -81,11 +78,7 @@ module Headstartup
       end
 
       def self.theme_view_path
-        if Nesta::Config.theme.nil?
-          nil
-        else
-          Nesta::Path.themes(Nesta::Config.theme, "views")
-        end
+        Nesta::Path.themes("headstartup", "views")
       end
   end
 
