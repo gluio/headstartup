@@ -17,8 +17,9 @@ module Nesta
   end
 
   module Overrides
-    public :render_options
-    alias_method :render_options_without_headstart, :render_options
+    class << self
+      alias_method :render_options_without_headstart, :render_options
+    end
 
     def self.render_options(template, *engines)
       theme_view_path = Nesta::Path.themes('headstartup', 'views')
