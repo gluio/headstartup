@@ -17,6 +17,7 @@ module Nesta
   end
 
   module Overrides
+    public :render_options
     alias_method :render_options_without_headstart, :render_options
 
     def self.render_options(template, *engines)
