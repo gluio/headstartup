@@ -66,6 +66,7 @@ module Headstartup
         [local_view_path, theme_view_path].each do |path|
           engines.each do |engine|
             if template_exists?(engine, path, template)
+              STDOUT.puts "Path exists: #{path}"
               return { views: path }, engine
             end
           end
