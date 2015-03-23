@@ -2,21 +2,8 @@ require "headstartup/version"
 require "nesta/config"
 require "nesta/app"
 
-module Headstartup
-  class Config < Nesta::Config
-    @settings = %w[
-      cache
-      content
-      disqus_short_name
-      google_analytics_code
-      read_more
-      subtitle
-      theme
-      title
-    ]
-    @author_settings = %w[name uri email]
-    @yaml = nil
-
+module Nesta
+  class Nesta::Config
     def self.landing_page_path(basename = nil)
       get_path(File.join(content_path, "landing-pages"), basename)
     end
@@ -24,79 +11,13 @@ module Headstartup
 
   class LandingPage < Nesta::Page
     def self.model_path(basename = nil)
-      Headstartup::Config.landing_page_path(basename)
+      Nesta::Config.landing_page_path(basename)
     end
   end
+end
 
-  module Overrides
-    module Renderers
-      def haml(template, options = {}, locals = {})
-        defaults, engine = Headstartup::Overrides.render_options(template, :haml)
-        super(template, defaults.merge(options), locals)
-      end
-
-      def erb(template, options = {}, locals = {})
-        defaults, engine = Headstartup::Overrides.render_options(template, :erb)
-        super(template, defaults.merge(options), locals)
-      end
-
-      def scss(template, options = {}, locals = {})
-        defaults, engine = Headstartup::Overrides.render_options(template, :scss)
-        super(template, defaults.merge(options), locals)
-      end
-
-      def sass(template, options = {}, locals = {})
-        defaults, engine = Headstartup::Overrides.render_options(template, :sass)
-        super(template, defaults.merge(options), locals)
-      end
-
-      def stylesheet(template, options = {}, locals = {})
-        defaults, engine = Headstartup::Overrides.render_options(template, :sass, :scss)
-        renderer = Sinatra::Templates.instance_method(engine)
-        renderer.bind(self).call(template, defaults.merge(options), locals)
-      end
-    end
-
-    private
-      def self.template_exists?(engine, views, template)
-        views && File.exist?(File.join(views, "#{template}.#{engine}"))
-      end
-
-      def self.render_options(template, *engines)
-        [local_view_path, theme_view_path].each do |path|
-          engines.each do |engine|
-            if template_exists?(engine, path, template)
-              return { views: path }, engine
-            end
-          end
-        end
-        [{}, :sass]
-      end
-
-      def self.local_view_path
-        Headstartup::App.views
-      end
-
-      def self.theme_view_path
-        Nesta::Path.themes("headstartup", "views")
-      end
-  end
-
+module Headstartup
   class App < Nesta::App
-    set :root, File.expand_path(File.dirname(__FILE__))
-    set :views, File.expand_path("views", File.dirname(__FILE__))
-
-    helpers Headstartup::Overrides::Renderers
-    helpers do
-      def twitter_handle
-        Nesta::Config.fetch("twitter", nil)
-      end
-
-      def facebook_page
-        Nesta::Config.fetch("facebook", nil)
-      end
-    end
-
     get '/sitemap.xml' do
       content_type :xml, charset: 'utf-8'
       @pages = LandingPage.find_all.reject do |page|
