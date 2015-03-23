@@ -31,27 +31,27 @@ module Headstartup
   module Overrides
     module Renderers
       def haml(template, options = {}, locals = {})
-        defaults, engine = Overrides.render_options(template, :haml)
+        defaults, engine = Headstartup::Overrides.render_options(template, :haml)
         super(template, defaults.merge(options), locals)
       end
 
       def erb(template, options = {}, locals = {})
-        defaults, engine = Overrides.render_options(template, :erb)
+        defaults, engine = Headstartup::Overrides.render_options(template, :erb)
         super(template, defaults.merge(options), locals)
       end
 
       def scss(template, options = {}, locals = {})
-        defaults, engine = Overrides.render_options(template, :scss)
+        defaults, engine = Headstartup::Overrides.render_options(template, :scss)
         super(template, defaults.merge(options), locals)
       end
 
       def sass(template, options = {}, locals = {})
-        defaults, engine = Overrides.render_options(template, :sass)
+        defaults, engine = Headstartup::Overrides.render_options(template, :sass)
         super(template, defaults.merge(options), locals)
       end
 
       def stylesheet(template, options = {}, locals = {})
-        defaults, engine = Overrides.render_options(template, :sass, :scss)
+        defaults, engine = Headstartup::Overrides.render_options(template, :sass, :scss)
         renderer = Sinatra::Templates.instance_method(engine)
         renderer.bind(self).call(template, defaults.merge(options), locals)
       end
