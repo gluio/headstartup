@@ -26,6 +26,7 @@ module Nesta
       local_view_path = Nesta::Path.local("views/landing-pages")
       [local_view_path, theme_view_path].each do |path|
         engines.each do |engine|
+          STDOUT.puts "Checking #{engine}, #{path}, #{template}"
           if template_exists?(engine, path, template)
             return { views: path }, engine
           end
@@ -38,8 +39,8 @@ end
 
 module Headstartup
   class App < Nesta::App
-    app_file = Nesta::Path.themes('headstartup', 'app.rb')
-    require app_file if File.exist?(app_file)
+    #app_file = Nesta::Path.themes('headstartup', 'app.rb')
+    #require app_file if File.exist?(app_file)
     include Headstartup::Routes
     helpers Headstartup::Helpers
   end
